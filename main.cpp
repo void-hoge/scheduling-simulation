@@ -1,5 +1,6 @@
 // elevator algorithm simulation
-// mugi noda
+// by mugi noda
+// 2021/5/26
 
 #include <iostream>
 #include <algorithm>
