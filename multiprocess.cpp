@@ -123,8 +123,8 @@ long long shortest_job_next(task_table<SIZE, rand_class>& task, const int interr
 
 
 int main() {
-	task_table<1000, std::uniform_int_distribution<>> task(0, std::uniform_int_distribution<>(0, 10000));
-	// task_table<100, std::normal_distribution<>> task(0, std::normal_distribution<>(500.0, 20.0));
+	// task_table<1000, std::uniform_int_distribution<>> task(0, std::uniform_int_distribution<>(0, 10000));
+	task_table<1000, std::normal_distribution<>> task(0, std::normal_distribution<>(5000.0, 1.0));
 	task.gen_task();
 	std::cout << "FCFS" << '\n';
 	std::cout << "total execute time: " << fcfs(task, 1) << '\n';
