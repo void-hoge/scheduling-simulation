@@ -1,6 +1,10 @@
+// Mugi Noda
+// 2021/6/2
+
 #include <iostream>
 #include <vector>
 #include <random>
+#include <algorithm>
 #include <array>
 
 template<long long SIZE, typename rand_class>
@@ -104,6 +108,20 @@ long long fcfs(task_table<SIZE, rand_class>& task, const int interrupt) {
 	return alltime;
 }
 
+template<long long SIZE, typename rand_class>
+long long shortest_job_next(task_table<SIZE, rand_class>& task, const int interrupt) {
+	std::sort(task.requiered_time.begin(), task.requiered_time.end());
+	const int VERY_BIG_NUM = 2147483647;
+	long long alltime = 0;
+	for (long long i = 0; i < SIZE; i++) {
+		alltime += task.run_little(i, VERY_BIG_NUM);
+		task.add_all(interrupt);
+		alltime+=interrupt;
+	}
+	return alltime;
+}
+
+
 int main() {
 	task_table<1000, std::uniform_int_distribution<>> task(0, std::uniform_int_distribution<>(0, 10000));
 	// task_table<100, std::normal_distribution<>> task(0, std::normal_distribution<>(500.0, 20.0));
@@ -116,6 +134,12 @@ int main() {
 	task.gen_task();
 	std::cout << "Round Robin" << '\n';
 	std::cout << "total execute time: " << round_robin(task, 1, 1000) << '\n';
+	std::cout << "average execute time: " << task.get_average_finish_time() << '\n';
+	std::cout << "variance of execute time: " << task.get_variance() << '\n';
+	std::cout << '\n';
+	task.gen_task();
+	std::cout << "Shortest Job Next" << '\n';
+	std::cout << "total execute time: " << shortest_job_next(task, 1) << '\n';
 	std::cout << "average execute time: " << task.get_average_finish_time() << '\n';
 	std::cout << "variance of execute time: " << task.get_variance() << '\n';
 	return 0;
